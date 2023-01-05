@@ -1,0 +1,60 @@
+<html>
+<head>
+  <style>
+    .copy-button {
+      display: block;
+      margin: 0 auto;
+      width: 500px;
+      height: 150px;
+      font-size: 70px;
+      line-height: 90px;
+      text-align: center;
+      border-radius: 5px;
+      background-color: #333;
+      color: rgb(255, 255, 255);
+      cursor: pointer;
+      border: 5px solid rgb(70, 70, 70);
+      font-family: 'Comic Sans MS', Arial, sans-serif;
+    }
+  </style>
+</head>
+<body>
+    <button class="copy-button"
+onclick="copyTextToClipboard(getMessageIdFromUrl());">Click to copy</button>
+
+<script>
+function getMessageIdFromUrl() {
+  // get the `id` parameter from the URL
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get('id');
+}
+
+function copyTextToClipboard(text) {
+    // Check if the `navigator.clipboard` API is supported
+    if (navigator.clipboard) {
+      // Use the `navigator.clipboard` API to copy the text
+      navigator.clipboard.writeText(text).then(function() {
+        alert('Copied to clipboard: ' + text);
+      }, function(error) {
+        alert('Failed to copy to clipboard: ' + error);
+      });
+    } else {
+      // Fallback: select the text and use `execCommand` to copy it
+      var input = document.createElement('input');
+      input.setAttribute('value', text);
+      document.body.appendChild(input);
+      input.select();
+      try {
+        var success = document.execCommand('copy');
+        if (success) {
+          alert('Copied to clipboard: ' + text);
+        } else {
+          alert('Failed to copy to clipboard');
+        }
+      } catch (error) {
+        alert('Failed to copy to clipboard: ' + error);
+      }
+      document.body.removeChild(input);
+    }
+  }
+</script>
