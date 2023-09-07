@@ -46,6 +46,9 @@
         }, function(error) {
           console.error('Failed to copy to clipboard: ' + error);
           document.getElementById('message').innerText = 'An error occurred while copying. Please close this window manually.';
+          if (error.name === 'NotAllowedError'){
+            document.getElementById('message').innerText = 'Please grant clipboard permissions to this website in order to copy the text to clipboard.\nRefresh the page after granting the permissions.';
+          }
         });
       } else {
         var input = document.createElement('input');
@@ -63,6 +66,9 @@
         } catch (error) {
           console.error('Failed to copy to clipboard: ' + error);
           document.getElementById('message').innerText = 'An error occurred while copying. Please close this window manually.';
+          if (error.name === 'NotAllowedError'){
+            document.getElementById('message').innerText = 'Please grant clipboard permissions to this website in order to copy the text to clipboard.\nRefresh the page after granting the permissions.';
+          }
         }
         document.body.removeChild(input);
       }
