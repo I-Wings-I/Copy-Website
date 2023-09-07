@@ -1,60 +1,84 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auto Copy Button</title>
   <style>
-    .copy-button {
-      display: block;
-      margin: 0 auto;
-      width: 500px;
-      height: 150px;
-      font-size: 70px;
-      line-height: 90px;
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
       text-align: center;
+    }
+
+    #message {
+      font-size: 24px;
+      font-weight: bold;
+      color: #007bff;
+      padding: 20px;
+      border: 2px solid #007bff;
       border-radius: 5px;
-      background-color: #333;
-      color: rgb(255, 255, 255);
-      cursor: pointer;
-      border: 5px solid rgb(70, 70, 70);
-      font-family: 'Comic Sans MS', Arial, sans-serif;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     }
   </style>
 </head>
 <body>
-    <button class="copy-button"
-onclick="copyTextToClipboard(getMessageIdFromUrl());">Click to copy</button>
+  <div class="container">
+    <p id="message">Copying text...</p>
+  </div>
 
-<script>
-function getMessageIdFromUrl() {
-  // get the `id` parameter from the URL
-  const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get('id');
-}
-
-function copyTextToClipboard(text) {
-    // Check if the `navigator.clipboard` API is supported
-    if (navigator.clipboard) {
-      // Use the `navigator.clipboard` API to copy the text
-      navigator.clipboard.writeText(text).then(function() {
-        alert('Copied to clipboard: ' + text);
-      }, function(error) {
-        alert('Failed to copy to clipboard: ' + error);
-      });
-    } else {
-      // Fallback: select the text and use `execCommand` to copy it
-      var input = document.createElement('input');
-      input.setAttribute('value', text);
-      document.body.appendChild(input);
-      input.select();
-      try {
-        var success = document.execCommand('copy');
-        if (success) {
-          alert('Copied to clipboard: ' + text);
-        } else {
-          alert('Failed to copy to clipboard');
+  <script>
+    // Function to copy text to clipboard
+    function copyTextToClipboard(text) {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(function() {
+          document.getElementById('message').innerText = 'Text copied successfully. You can now close this window manually.';
+        }, function(error) {
+          console.error('Failed to copy to clipboard: ' + error);
+          document.getElementById('message').innerText = 'An error occurred while copying. Please close this window manually.';
+        });
+      } else {
+        var input = document.createElement('input');
+        input.setAttribute('value', text);
+        document.body.appendChild(input);
+        input.select();
+        try {
+          var success = document.execCommand('copy');
+          if (success) {
+            document.getElementById('message').innerText = 'Text copied successfully. You can now close this window manually.';
+          } else {
+            console.error('Failed to copy to clipboard');
+            document.getElementById('message').innerText = 'An error occurred while copying. Please close this window manually.';
+          }
+        } catch (error) {
+          console.error('Failed to copy to clipboard: ' + error);
+          document.getElementById('message').innerText = 'An error occurred while copying. Please close this window manually.';
         }
-      } catch (error) {
-        alert('Failed to copy to clipboard: ' + error);
+        document.body.removeChild(input);
       }
-      document.body.removeChild(input);
     }
-  }
-</script>
+
+    // Get the 'id' parameter from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const idToCopy = urlParams.get('id');
+
+    // Call the copyTextToClipboard function with the extracted 'id'
+    if (idToCopy) {
+      copyTextToClipboard(idToCopy);
+    } else {
+      console.error('No "id" parameter found in the URL.');
+      document.getElementById('message').innerText = 'No "id" parameter found in the URL. Please close this window manually.';
+    }
+  </script>
+</body>
+</html>
