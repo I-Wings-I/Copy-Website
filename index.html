@@ -42,10 +42,10 @@
     function copyTextToClipboard(text) {
       if (navigator.clipboard) {
         navigator.clipboard.writeText(text).then(function() {
-          document.getElementById('message').innerText = 'Text copied successfully. You can now close this window manually.';
+          document.getElementById('message').innerText = 'Text copied successfully. You can now close this window.';
         }, function(error) {
           console.error('Failed to copy to clipboard: ' + error);
-          document.getElementById('message').innerText = 'An error occurred while copying. Please close this window manually.';
+          document.getElementById('message').innerText = 'An error occurred while copying. Please close this window.';
           if (error.name === 'NotAllowedError'){
             document.getElementById('message').innerText = 'Please grant clipboard permissions to this website in order to copy the text to clipboard.\nRefresh the page after granting the permissions.';
           }
@@ -58,14 +58,14 @@
         try {
           var success = document.execCommand('copy');
           if (success) {
-            document.getElementById('message').innerText = 'Text copied successfully. You can now close this window manually.';
+            document.getElementById('message').innerText = 'Text copied successfully. You can now close this window.';
           } else {
             console.error('Failed to copy to clipboard');
-            document.getElementById('message').innerText = 'An error occurred while copying. Please close this window manually.';
+            document.getElementById('message').innerText = 'An error occurred while copying. Please close this window.';
           }
         } catch (error) {
           console.error('Failed to copy to clipboard: ' + error);
-          document.getElementById('message').innerText = 'An error occurred while copying. Please close this window manually.';
+          document.getElementById('message').innerText = 'An error occurred while copying. Please close this window.';
           if (error.name === 'NotAllowedError'){
             document.getElementById('message').innerText = 'Please grant clipboard permissions to this website in order to copy the text to clipboard.\nRefresh the page after granting the permissions.';
           }
@@ -83,7 +83,7 @@
       copyTextToClipboard(idToCopy);
     } else {
       console.error('No "id" parameter found in the URL.');
-      document.getElementById('message').innerText = 'No "id" parameter found in the URL. Please close this window manually.';
+      document.getElementById('message').innerText = 'No "id" parameter found in the URL. Please close this window.';
     }
   </script>
 </body>
